@@ -16,7 +16,7 @@ pipeline {
             steps {
                 // Build the Docker images
                 script {
-                    docker.build("my_app_image", "./path/to/your/app") // Adjust path as needed
+                    docker.build("ci-cd_image", ".") // Adjust path as needed
                     echo 'Build completed successfully!'
                 }
             }

@@ -21,7 +21,8 @@ pipeline {
         stage('Build/Install Dependencies') {
             steps {
                 // Run your build and install dependencies command
-                sh 'npm install' // or any other build command relevant to your project
+                sh "mvn -version"
+                sh "mvn clean install"
             }
         }
 

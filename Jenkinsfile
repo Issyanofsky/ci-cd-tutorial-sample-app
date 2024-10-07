@@ -35,6 +35,7 @@ pipeline {
                 sh 'docker-compose up -d' // Start services in detached mode
             }
         }
+    }
 
     post {
         always {

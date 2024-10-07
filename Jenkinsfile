@@ -1,53 +1,40 @@
 pipeline {
     agent any
 
-    environment {
-        // Define the database connection parameters
-        DB_HOST = 'postgres' // Replace with the actual DB host
-        DB_PORT = '5432'         // Default PostgreSQL port
-        DB_NAME = 'DB' // Replace with the actual DB name
-        DB_USER = 'admin' // Replace with the actual DB user
-        DB_PASSWORD = 'a1a1a1' // Replace with the actual DB password
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                
-                git 'https://github.com/Issyanofsky/ci-cd-tutorial-sample-app.git'
+                // Checkout the code from the repository
+                git 'https://your.git.repo/url.git' // Replace with your repository URL
             }
         }
         
-        stage('Build/Install Dependencies') {
+        stage('Build Docker Images') {
             steps {
-                // Run your build and install dependencies command
-                sh "pip install -r requirements-server.txt"
-                sh "mvn -version"
-                sh "mvn clean install"
+                // Build the Docker images
+                script {
+                    docker.build("my_app_image", "./path/to/your/app") // Adjust path as needed
+                }
             }
         }
 
-        stage('Test Coverage') {
+        stage('Run Tests') {
             steps {
-                // Run test coverage tool, e.g., for a Node.js application
-                sh 'npm run test -- --coverage' // Adjust as necessary for your testing framework
+                // Run your application tests in a container
+                script {
+                    docker.image("my_app_image").inside {
+                        sh 'source venv/bin/activate && python your_test_script.py' // Adjust as necessary
+                    }
+                }
             }
         }
 
-        stage('Test the App') {
+        stage('Deploy') {
             steps {
-                // Run your application tests
-                sh 'npm test' // Adjust as necessary for your testing framework
+                // Deploy the application using Docker Compose
+                sh 'docker-compose up -d' // Start services in detached mode
             }
         }
-
-        stage('Archive Artifacts') {
-            steps {
-                // Archive build artifacts
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true // Adjust the path based on your build
-            }
-        }
-    }
 
     post {
         always {

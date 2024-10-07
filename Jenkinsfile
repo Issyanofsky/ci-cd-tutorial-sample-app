@@ -4,9 +4,9 @@ pipeline {
 
     environment {
         // Define the database connection parameters
-        DB_HOST = 'your_db_host' // Replace with the actual DB host
+        DB_HOST = 'postgres' // Replace with the actual DB host
         DB_PORT = '5432'         // Default PostgreSQL port
-        DB_NAME = 'your_db_name' // Replace with the actual DB name
+        DB_NAME = 'DB' // Replace with the actual DB name
         DB_USER = 'admin' // Replace with the actual DB user
         DB_PASSWORD = 'a1a1a1' // Replace with the actual DB password
     }

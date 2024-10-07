@@ -8,6 +8,7 @@ pipeline {
             steps {
                 // Checkout the code from the repository
                 git credentialsId: 'github-creds', url: 'https://github.com/Issyanofsky/ci-cd-tutorial-sample-app.git'
+                echo 'Git completed successfully!'
             }
         }
         
@@ -16,6 +17,7 @@ pipeline {
                 // Build the Docker images
                 script {
                     docker.build("my_app_image", "./path/to/your/app") // Adjust path as needed
+                    echo 'Build completed successfully!'
                 }
             }
         }
@@ -26,6 +28,7 @@ pipeline {
                 script {
                     docker.image("my_app_image").inside {
                         sh 'source venv/bin/activate && python your_test_script.py' // Adjust as necessary
+                        echo 'Run completed successfully!'
                     }
                 }
             }

@@ -5,9 +5,9 @@ services:
     image: postgres:latest
     container_name: my_postgres
     environment:
-      POSTGRES_DB: your_db_name          # Replace with your database name
-      POSTGRES_USER: your_db_user         # Replace with your database user
-      POSTGRES_PASSWORD: your_db_password  # Replace with your database password
+      POSTGRES_DB: DB          # Replace with your database name
+      POSTGRES_USER: admin         # Replace with your database user
+      POSTGRES_PASSWORD: a1a1a1  # Replace with your database password
     ports:
       - '5432:5432'                        # Expose PostgreSQL on port 5432
     volumes:
@@ -15,15 +15,15 @@ services:
 
   app:
     build:
-      context: ./path/to/your/app        # Path to your application's Dockerfile
+ #context: ./path/to/your/app        # Path to your application's Dockerfile
       dockerfile: Dockerfile              # Name of your Dockerfile
     container_name: my_app                # Name of your application container
     environment:
       DB_HOST: postgres                   # Hostname of the PostgreSQL container
       DB_PORT: 5432                       # Port for PostgreSQL
-      DB_NAME: your_db_name               # Database name
-      DB_USER: your_db_user               # Database user
-      DB_PASSWORD: your_db_password       # Database password
+      DB_NAME: DB               # Database name
+      DB_USER: admin               # Database user
+      DB_PASSWORD: a1a1a1       # Database password
     depends_on:
       - postgres                           # Ensure postgres starts before the app
     ports:

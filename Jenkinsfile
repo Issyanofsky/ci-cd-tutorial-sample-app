@@ -21,6 +21,7 @@ pipeline {
         stage('Build/Install Dependencies') {
             steps {
                 // Run your build and install dependencies command
+                sh "pip install -r requirements-server.txt"
                 sh "mvn -version"
                 sh "mvn clean install"
             }

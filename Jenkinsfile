@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the repository
-                git 'https://your.git.repo/url.git' // Replace with your repository URL
+                git 'https://github.com/Issyanofsky/ci-cd-tutorial-sample-app.git'
             }
         }
         

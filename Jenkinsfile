@@ -12,22 +12,22 @@ pipeline {
             }
         }
         
-        stage('Build Docker Images') {
-            steps {
+//        stage('Build Docker Images') {
+//            steps {
                 // Build the Docker images
-                echo 'Start of Build stage!'
-                sh 'ls -alh'
-                script {
-                    try {
-                        sh 'docker build . -t ci-cd_image'
-                        echo 'Build completed successfully!'
-                    } catch (Exception e) {
-                        echo 'Build failed!'
-                        error "Error: ${e.message}"
-                    }
-                }
-            }
-        }
+//                echo 'Start of Build stage!'
+//                sh 'ls -alh'
+//                script {
+//                    try {
+//                        sh 'docker build . -t ci-cd_image'
+//                        echo 'Build completed successfully!'
+//                    } catch (Exception e) {
+//                        echo 'Build failed!'
+//                        error "Error: ${e.message}"
+//                    }
+//                }
+//            }
+//        }
         stage('Deploy PostgreSQL') {
             steps {
                 // Start the PostgreSQL service using Docker Compose

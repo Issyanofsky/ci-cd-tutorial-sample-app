@@ -1,3 +1,4 @@
+
 version: '3.8'
 
 services:
@@ -5,9 +6,9 @@ services:
     image: postgres:latest
     container_name: my_postgres
     environment:
-      POSTGRES_DB: DB          # Replace with your database name
-      POSTGRES_USER: admin         # Replace with your database user
-      POSTGRES_PASSWORD: a1a1a1  # Replace with your database password
+      POSTGRES_DB: DB
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: a1a1a1
     ports:
       - '5432:5432'                        # Expose PostgreSQL on port 5432
     volumes:
@@ -15,20 +16,19 @@ services:
 
   app:
     build:
-      
-      context: ./        # Path to your application's Dockerfile
-      dockerfile: Dockerfile              # Name of your Dockerfile
-      # container_name: my_app                # Name of your application container
-      environment:
-        DB_HOST: postgres                   # Hostname of the PostgreSQL container
-        DB_PORT: 5432                       # Port for PostgreSQL
-        DB_NAME: DB               # Database name
-        DB_USER: admin               # Database user
-        DB_PASSWORD: a1a1a1       # Database password
-    depends_on:
-        - postgres
+      context: .                          # Build from the current directory
+      dockerfile: Dockerfile               # Specify the Dockerfile to use
+    container_name: my_app                # Name of your application container
+    environment:
+      DB_HOST: postgres                   # Hostname of the PostgreSQL container
+      DB_PORT: 5432                       # Port for PostgreSQL
+      DB_NAME: DB
+      DB_USER: admin
+      DB_PASSWORD: a1a1a1
     ports:
       - '3000:3000'                       # Adjust based on your app's port
+    depends_on:
+      - postgres                           # Ensure postgres starts before the app
 
 volumes:
   postgres_data:

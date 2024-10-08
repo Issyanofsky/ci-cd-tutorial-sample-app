@@ -15,6 +15,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 // Build the Docker images
+                echo 'Start of Build stage!'
                 script {
                     docker.build("ci-cd_image", ".") // Adjust path as needed
                     echo 'Build completed successfully!'

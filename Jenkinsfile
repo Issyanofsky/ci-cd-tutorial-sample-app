@@ -32,10 +32,15 @@ pipeline {
         stage('Run Tests') {
             steps {
                 // Run your application tests in a container
-                script {
-                    docker.image("my_app_image").inside {
-                        sh 'source venv/bin/activate && python your_test_script.py' // Adjust as necessary
-                        echo 'Run completed successfully!'
+               script {
+                    try {
+                        // Run tests inside the Docker container
+                        sh 'docker run --rm ci-cd_image pytest --cov=./tests > result.log' // Replace with your test command
+                        echo 'Tests executed successfully!'
+                    } catch (Exception e) {
+                        echo 'Tests failed!'
+                        echo "Error: ${e.message}"
+                        currentBuild.result = 'FAILURE'
                     }
                 }
             }

@@ -27,7 +27,7 @@ pipeline {
                     }
                 }
             }
-        
+        }
         stage('Deploy PostgreSQL') {
             steps {
                 // Start the PostgreSQL service using Docker Compose

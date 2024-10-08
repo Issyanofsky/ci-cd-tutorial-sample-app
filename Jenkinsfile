@@ -12,22 +12,22 @@ pipeline {
             }
         }
         
-//        stage('Build Docker Images') {
-//            steps {
+        stage('Build Docker Images') {
+            steps {
                 // Build the Docker images
-//                echo 'Start of Build stage!'
-//                sh 'ls -alh'
-//                script {
-//                    try {
-//                        sh 'docker build . -t ci-cd_image'
-//                        echo 'Build completed successfully!'
-//                    } catch (Exception e) {
-//                        echo 'Build failed!'
-//                        error "Error: ${e.message}"
-//                    }
-//                }
-//            }
-//        }
+                echo 'Start of Build stage!'
+                sh 'ls -alh'
+                script {
+                    try {
+                        sh 'docker build . -t ci-cd_image'
+                        echo 'Build completed successfully!'
+                    } catch (Exception e) {
+                        echo 'Build failed!'
+                        error "Error: ${e.message}"
+                    }
+                }
+            }
+        }
         stage('Deploy images') {
             steps {
                 // Start the PostgreSQL service using Docker Compose
@@ -41,7 +41,7 @@ pipeline {
                script {
                     try {
                         // Run tests inside the Docker container
-                        sh 'docker run --rm my_app pytest --cov=./tests > result.log' // Replace with your test command
+                        sh 'docker run --rm ci-cd_image pytest --cov=./tests > result.log' // Replace with your test command
                         echo 'Tests executed successfully!'
                     } catch (Exception e) {
                         echo 'Tests failed!'

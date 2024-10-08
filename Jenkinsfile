@@ -27,13 +27,13 @@ pipeline {
             }
         }
 
-        stage('Deploy PostgreSQL') {
-            steps {
-                echo 'Starting PostgreSQL service...'
-                // Start PostgreSQL using Docker Compose
-                sh 'docker-compose up -d postgres'
-            }
-        }
+//        stage('Deploy PostgreSQL') {
+//            steps {
+//                echo 'Starting PostgreSQL service...'
+//                // Start PostgreSQL using Docker Compose
+//                sh 'docker-compose up -d postgres'
+//            }
+//        }
 
         stage('Run Tests') {
             steps {

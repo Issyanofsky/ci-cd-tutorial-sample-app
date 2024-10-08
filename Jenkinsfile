@@ -27,7 +27,7 @@ pipeline {
                     }
                 }
             }
-        }
+        
         stage('Deploy PostgreSQL') {
             steps {
                 // Start the PostgreSQL service using Docker Compose
@@ -65,14 +65,14 @@ pipeline {
                 sh 'docker-compose up -d' // Start services in detached mode
             }
         }
-    }
-    stage('Clean Up') {
+    
+        stage('Clean Up') {
             steps {
                 // Stop and remove services after deployment
                 sh 'docker-compose down'
             }
         }
-    }
+}
     post {
         always {
             // Cleanup actions, if necessary

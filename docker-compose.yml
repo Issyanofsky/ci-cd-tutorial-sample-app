@@ -15,19 +15,19 @@ services:
 
   app:
     build:
- #context: ./path/to/your/app        # Path to your application's Dockerfile
+      context: ./        # Path to your application's Dockerfile
       dockerfile: Dockerfile              # Name of your Dockerfile
-    container_name: my_app                # Name of your application container
-    environment:
-      DB_HOST: postgres                   # Hostname of the PostgreSQL container
-      DB_PORT: 5432                       # Port for PostgreSQL
-      DB_NAME: DB               # Database name
-      DB_USER: admin               # Database user
-      DB_PASSWORD: a1a1a1       # Database password
-    depends_on:
-      - postgres                           # Ensure postgres starts before the app
-    ports:
-      - '3000:3000'                       # Adjust based on your app's port
+      container_name: my_app                # Name of your application container
+      environment:
+        DB_HOST: postgres                   # Hostname of the PostgreSQL container
+        DB_PORT: 5432                       # Port for PostgreSQL
+        DB_NAME: DB               # Database name
+        DB_USER: admin               # Database user
+        DB_PASSWORD: a1a1a1       # Database password
+      depends_on:
+        - postgres                           # Ensure postgres starts before the app
+      ports:
+        - '3000:3000'                       # Adjust based on your app's port
 
 volumes:
   postgres_data:

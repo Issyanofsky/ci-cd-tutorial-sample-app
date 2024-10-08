@@ -19,7 +19,7 @@ pipeline {
                 sh 'ls -alh'
                 script {
                     try {
-                        docker.build("ci-cd_image", ".")
+                        sh 'docker build . -t ci-cd_image'
                         echo 'Build completed successfully!'
                     } catch (Exception e) {
                         echo 'Build failed!'

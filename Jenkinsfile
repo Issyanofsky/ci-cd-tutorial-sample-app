@@ -1,26 +1,24 @@
 pipeline {
     agent {
-      label 'docker-slave'
+        label 'docker-slave'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the repository
                 git credentialsId: 'github-creds', url: 'https://github.com/Issyanofsky/ci-cd-tutorial-sample-app.git'
-                echo 'Git completed successfully!'
+                echo 'Git checkout completed successfully!'
             }
         }
-        
-        stage('Build Docker Images') {
+
+        stage('Build Docker Image') {
             steps {
-                // Build the Docker images
-                echo 'Start of Build stage!'
-                sh 'ls -alh'
+                echo 'Starting build stage...'
                 script {
                     try {
+                        // Build the Docker image
                         sh 'docker build . -t ci-cd_image'
-                        echo 'Build completed successfully!'
+                        echo 'Docker image built successfully!'
                     } catch (Exception e) {
                         echo 'Build failed!'
                         error "Error: ${e.message}"
@@ -28,20 +26,21 @@ pipeline {
                 }
             }
         }
-        stage('Deploy images') {
+
+        stage('Deploy PostgreSQL') {
             steps {
-                // Start the PostgreSQL service using Docker Compose
-                sh 'docker-compose up -d' // Only start the PostgreSQL container
-                echo 'Deploy completed successfully!'
+                echo 'Starting PostgreSQL service...'
+                // Start PostgreSQL using Docker Compose
+                sh 'docker-compose up -d postgres'
             }
         }
+
         stage('Run Tests') {
             steps {
-                // Run your application tests in a container
-               script {
+                script {
                     try {
-                        // Run tests inside the Docker container
-                        sh 'docker run --rm ci-cd_image python3 -m unittest discover -s ./tests'
+                        // Run tests inside the Docker container using python3
+                        sh 'docker run --rm --network=host ci-cd_image python3 -m unittest discover -s ./tests'
                         echo 'Tests executed successfully!'
                     } catch (Exception e) {
                         echo 'Tests failed!'
@@ -51,34 +50,37 @@ pipeline {
                 }
             }
         }
+
         stage('Test Coverage') {
             steps {
                 script {
-                    // Display test coverage report
-                    sh 'docker run --rm ci-cd_image pytest --cov-report html:cov_html --cov=your_app_directory'
+                    // Generate test coverage report
+                    sh 'docker run --rm --network=host ci-cd_image python3 -m pytest --cov-report html:cov_html --cov=./sample-app'
                     echo 'Coverage report generated!'
                 }
             }
         }
-        stage('Deploy') {
+
+        stage('Deploy Application') {
             steps {
+                echo 'Deploying application...'
                 // Deploy the application using Docker Compose
-                sh 'docker-compose up -d' // Start services in detached mode
+                sh 'docker-compose up -d'
             }
         }
-    
+
         stage('Clean Up') {
             steps {
+                echo 'Cleaning up...'
                 // Stop and remove services after deployment
                 sh 'docker-compose down'
             }
         }
-}
+    }
+
     post {
         always {
-            // Cleanup actions, if necessary
-            echo 'Cleaning up...'
-            cleanWs() // Clean workspace if needed
+            cleanWs() // Clean workspace
         }
         
         success {

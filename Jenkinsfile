@@ -41,8 +41,7 @@ pipeline {
                script {
                     try {
                         // Run tests inside the Docker container
-                        sh 'python -m unittest discover'
-                        // sh 'docker run --rm ci-cd_image pytest --cov=./tests > result.log' // Replace with your test command
+                        sh 'docker run --rm ci-cd_image python3 -m unittest discover -s tests'
                         echo 'Tests executed successfully!'
                     } catch (Exception e) {
                         echo 'Tests failed!'

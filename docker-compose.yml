@@ -15,6 +15,8 @@ services:
 
   app:
     build:
+      depends_on:
+        - postgres
       context: ./        # Path to your application's Dockerfile
       dockerfile: Dockerfile              # Name of your Dockerfile
       # container_name: my_app                # Name of your application container
@@ -24,8 +26,6 @@ services:
         DB_NAME: DB               # Database name
         DB_USER: admin               # Database user
         DB_PASSWORD: a1a1a1       # Database password
-      depends_on:
-        - postgres                           # Ensure postgres starts before the app
       ports:
         - '3000:3000'                       # Adjust based on your app's port
 

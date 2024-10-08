@@ -18,8 +18,13 @@ pipeline {
                 echo 'Start of Build stage!'
                 sh 'ls -alh'
                 script {
-                    docker.build("ci-cd_image", ".") // Adjust path as needed
-                    echo 'Build completed successfully!'
+                    try {
+                        docker.build("ci-cd_image", ".")
+                        echo 'Build completed successfully!'
+                    } catch (Exception e) {
+                        echo 'Build failed!'
+                        error "Error: ${e.message}"
+                    }
                 }
             }
         }

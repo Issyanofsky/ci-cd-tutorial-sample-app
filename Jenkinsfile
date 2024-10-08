@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy PostgreSQL') {
             steps {
                 // Start the PostgreSQL service using Docker Compose
-                sh 'docker-compose up -d postgres' // Only start the PostgreSQL container
+                sh 'docker-compose up -d' // Only start the PostgreSQL container
             }
         }
         stage('Run Tests') {

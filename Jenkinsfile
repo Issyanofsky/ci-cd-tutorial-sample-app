@@ -41,7 +41,7 @@ pipeline {
                script {
                     try {
                         // Run tests inside the Docker container
-                        sh 'docker run --rm ci-cd_image pytest --cov=./tests > result.log' // Replace with your test command
+                        sh 'docker run --rm my_app pytest --cov=./tests > result.log' // Replace with your test command
                         echo 'Tests executed successfully!'
                     } catch (Exception e) {
                         echo 'Tests failed!'

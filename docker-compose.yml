@@ -17,7 +17,7 @@ services:
     build:
       context: ./        # Path to your application's Dockerfile
       dockerfile: Dockerfile              # Name of your Dockerfile
-      container_name: my_app                # Name of your application container
+      # container_name: my_app                # Name of your application container
       environment:
         DB_HOST: postgres                   # Hostname of the PostgreSQL container
         DB_PORT: 5432                       # Port for PostgreSQL

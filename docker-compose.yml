@@ -2,7 +2,7 @@
 version: '3.8'
 
 services:
-  postgres:
+  postgresql:
     image: postgres:latest
     container_name: my_postgres
     environment:
@@ -28,7 +28,7 @@ services:
     ports:
       - '3000:3000'                       # Adjust based on your app's port
     depends_on:
-      - postgres                           # Ensure postgres starts before the app
+      - postgresql                           # Ensure postgres starts before the app
 
 volumes:
   postgres_data:

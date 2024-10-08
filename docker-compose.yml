@@ -1,34 +1,30 @@
-
 version: '3.8'
 
 services:
-  postgresql:
+  postgres:
     image: postgres:latest
-    container_name: ci-cd_postgres
     environment:
       POSTGRES_DB: DB
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: a1a1a1
     ports:
-      - '5432:5432'                        # Expose PostgreSQL on port 5432
-    volumes:
-      - postgres_data:/var/lib/postgresql/data # Persist data
+      - "5432:5432"
+    networks:
+      - my_network
 
   app:
     build:
-      context: .                          # Build from the current directory
-      dockerfile: Dockerfile               # Specify the Dockerfile to use
-    container_name: my_app                # Name of your application container
-    environment:
-      DB_HOST: postgres                   # Hostname of the PostgreSQL container
-      DB_PORT: 5432                       # Port for PostgreSQL
-      DB_NAME: DB
-      DB_USER: admin
-      DB_PASSWORD: a1a1a1
-    ports:
-      - '3000:3000'                       # Adjust based on your app's port
+      context: .
+      dockerfile: Dockerfile
     depends_on:
-      - postgresql                           # Ensure postgres starts before the app
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://admin:a1a1a1@postgres:5432/db
+    ports:
+      - "8000:8000"
+    networks:
+      - my_network
 
-volumes:
-  postgres_data:
+networks:
+  my_network:
+    driver: bridge

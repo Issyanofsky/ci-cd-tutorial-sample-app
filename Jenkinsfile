@@ -28,7 +28,12 @@ pipeline {
                 }
             }
         }
-
+        stage('Deploy PostgreSQL') {
+            steps {
+                // Start the PostgreSQL service using Docker Compose
+                sh 'docker-compose up -d postgres' // Only start the PostgreSQL container
+            }
+        }
         stage('Run Tests') {
             steps {
                 // Run your application tests in a container
@@ -45,7 +50,15 @@ pipeline {
                 }
             }
         }
-
+        stage('Test Coverage') {
+            steps {
+                script {
+                    // Display test coverage report
+                    sh 'docker run --rm ci-cd_image pytest --cov-report html:cov_html --cov=your_app_directory'
+                    echo 'Coverage report generated!'
+                }
+            }
+        }
         stage('Deploy') {
             steps {
                 // Deploy the application using Docker Compose
@@ -53,7 +66,13 @@ pipeline {
             }
         }
     }
-
+    stage('Clean Up') {
+            steps {
+                // Stop and remove services after deployment
+                sh 'docker-compose down'
+            }
+        }
+    }
     post {
         always {
             // Cleanup actions, if necessary

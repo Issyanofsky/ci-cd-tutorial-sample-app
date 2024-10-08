@@ -28,10 +28,11 @@ pipeline {
 //                }
 //            }
 //        }
-        stage('Deploy PostgreSQL') {
+        stage('Deploy images') {
             steps {
                 // Start the PostgreSQL service using Docker Compose
                 sh 'docker-compose up -d' // Only start the PostgreSQL container
+                echo 'Deploy completed successfully!'
             }
         }
         stage('Run Tests') {

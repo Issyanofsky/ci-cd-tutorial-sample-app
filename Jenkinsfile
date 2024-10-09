@@ -33,12 +33,24 @@ pipeline {
                 // Start PostgreSQL using Docker Compose
                 sh 'docker-compose up -d postgres'
                 // Wait for PostgreSQL to be ready
-                sh '''
-                until docker-compose exec postgres pg_isready -U admin -d DB; do
-                    echo "Waiting for PostgreSQL..."
-                    sleep 5
-                done
-                '''
+                script {
+                    def maxRetries = 10
+                    def retryCount = 0
+                    while (retryCount < maxRetries) {
+                        def result = sh(script: 'docker-compose exec postgres pg_isready -U admin -d DB', returnStatus: true)
+                        if (result == 0) {
+                            echo 'PostgreSQL is ready!'
+                            break
+                        } else {
+                            echo "Waiting for PostgreSQL... (attempt ${retryCount + 1})"
+                            sleep 5
+                            retryCount++
+                        }
+                    }
+                    if (retryCount == maxRetries) {
+                        error 'PostgreSQL did not become ready in time!'
+                    }
+                }
 //                sh 'PGPASSWORD="a1a1a1" psql -h localhost -p 5432 -U admin -d DB'
 //                sh 'psql -U admin -d DB'
             }

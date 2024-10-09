@@ -32,6 +32,7 @@ pipeline {
                 echo 'Starting PostgreSQL service...'
                 // Start PostgreSQL using Docker Compose
                 sh 'docker-compose up -d postgres'
+                sh 'psql -h localhost -p 5432 -U admin -d DB'
             }
         }
 

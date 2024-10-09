@@ -33,7 +33,6 @@ pipeline {
                 // Start PostgreSQL using Docker Compose
                 sh 'docker-compose up -d postgres'
                 sh 'PGPASSWORD="a1a1a1" psql -h localhost -p 5432 -U admin -d DB'
-'
             }
         }
 

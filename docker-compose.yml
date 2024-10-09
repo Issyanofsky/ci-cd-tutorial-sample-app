@@ -19,14 +19,16 @@ services:
     depends_on:
       - postgres
     environment:
-      POSTGRES_DB: DB
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: a1a1a1    
       DATABASE_URL: postgres://admin:a1a1a1@postgres:5432/DB
     ports:
       - "8000:8000"
     networks:
       - my_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   my_network:

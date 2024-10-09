@@ -32,6 +32,13 @@ pipeline {
                 echo 'Starting PostgreSQL service...'
                 // Start PostgreSQL using Docker Compose
                 sh 'docker-compose up -d postgres'
+                // Wait for PostgreSQL to be ready
+                sh '''
+                until docker-compose exec postgres pg_isready -U admin -d DB; do
+                    echo "Waiting for PostgreSQL..."
+                    sleep 5
+                done
+                '''
 //                sh 'PGPASSWORD="a1a1a1" psql -h localhost -p 5432 -U admin -d DB'
 //                sh 'psql -U admin -d DB'
             }

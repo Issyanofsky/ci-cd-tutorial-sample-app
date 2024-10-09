@@ -35,21 +35,21 @@ pipeline {
             }
         }
 
-//        stage('Run Tests') {
-//            steps {
-//                script {
-//                    try {
-//                        // Run tests inside the Docker container using python3
-//                       sh 'docker run --rm --network=host ci-cd_image python3 -m unittest discover -s ./tests'
-//                        echo 'Tests executed successfully!'
-//                    } catch (Exception e) {
-//                        echo 'Tests failed!'
-//                        echo "Error: ${e.message}"
-//                        currentBuild.result = 'FAILURE'
-//                    }
-//                }
-//            }
-//        }
+        stage('Run Tests') {
+            steps {
+                script {
+                    try {
+                        // Run tests inside the Docker container using python3
+                       sh 'docker run --rm --network=host ci-cd_image python3 -m unittest discover -s ./tests'
+                        echo 'Tests executed successfully!'
+                    } catch (Exception e) {
+                        echo 'Tests failed!'
+                        echo "Error: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
 
         stage('Test Coverage') {
             steps {

@@ -24,15 +24,6 @@ pipeline {
             }
         }
 
-        stage('Run Database Migrations') {
-            steps {
-                script {
-                    // Run migrations using the migrate service
-                    sh 'docker-compose run --rm migrate'
-                }
-            }
-        }
-
         stage('Deploy Application') {
             steps {
                 script {

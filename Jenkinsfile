@@ -47,7 +47,7 @@ pipeline {
             steps {
                 echo 'Running database migrations...'
                 script {
-                    sh 'docker-compose exec app flask db upgrade'
+                    sh 'docker-compose exec app flask DB upgrade'
                     sh 'python seed.py' 
                     echo 'Migration Ended'
                 }

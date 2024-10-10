@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_IMAGE = 'ci-cd_image // Change this to your image name
+        DOCKER_IMAGE = 'ci-cd_image' // Change this to your image name
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
     }
 

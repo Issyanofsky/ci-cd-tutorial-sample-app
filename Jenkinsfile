@@ -32,6 +32,15 @@ pipeline {
                 }
             }
         }
+        stage('install Dependencies') {
+            steps {
+                script {
+                    // Start the application
+                    sh 'docker-compose up -d app'
+                }
+            }
+        }
+
     }
 
     post {

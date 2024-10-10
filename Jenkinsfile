@@ -34,33 +34,10 @@ pipeline {
                 }
             }
         }
-        stage('Run Database') {
+        stage('Run test') {
             steps {
                 script {
-                    // Run the PostgreSQL container
-                    sh """
-                    docker run --name postgres-db -d \
-                        -e POSTGRES_DB=${DB_NAME} \
-                        -e POSTGRES_USER=${DB_USER} \
-                        -e POSTGRES_PASSWORD=${DB_PASSWORD} \
-                        -p 5432:5432 \
-                        ${POSTGRES_IMAGE}
-                    """
-                }
-            }
-        }
-
-        stage('Run Application') {
-            steps {
-                script {
-                    // Run the application container
-                    sh """
-                    docker run --name rest-api -d \
-                        --link postgres-db:postgres \
-                        -e DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres/${DB_NAME} \
-                        -p 8000:8000 \
-                        ${DOCKER_IMAGE} python -m unittest discover
-                    """
+                    docker run --rm --network host ${DOCKER_IMAGE} coverage run -m unittest discover
                 }
             }
         }

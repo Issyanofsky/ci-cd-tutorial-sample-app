@@ -15,7 +15,7 @@ COPY . /sample-app/
 RUN pip3 install -r requirements.txt && \
     pip3 install -r requirements-server.txt
 
-ENV FLASK_APP=bootstrap.py # app.py  --- Adjust this if your main file has a different name
+ENV FLASK_APP=bootstrap.py
 ENV DATABASE_URL=postgres://admin:a1a1a1@postgres:5432/DB
 
 ENV LC_ALL="C.UTF-8"

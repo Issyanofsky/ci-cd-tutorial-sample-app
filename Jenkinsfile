@@ -43,7 +43,7 @@ pipeline {
                 echo 'Running database migrations...'
                 script {
                     sh 'docker-compose exec app flask db upgrade'
-                    sh '' 
+                    sh 'python seed.py' 
                 }
             }
         }

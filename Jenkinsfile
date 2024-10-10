@@ -47,6 +47,8 @@ pipeline {
         always {
             // Clean up
             sh 'docker-compose down'
+            cleanWs()
+            echo 'workspace is Clean'
         }
     }
 }

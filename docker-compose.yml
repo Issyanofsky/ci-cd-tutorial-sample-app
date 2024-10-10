@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  sql:
+  db:
     image: postgres:latest
     environment:
       POSTGRES_DB: DB
@@ -9,27 +9,13 @@ services:
       POSTGRES_PASSWORD: a1a1a1
     ports:
       - "5432:5432"
-    networks:
-      - my_network
 
   app:
     build:
       context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - sql
     environment:
-      DATABASE_URL: postgres://admin:a1a1a1@sql:5432/DB
-    ports:
+      DATABASE_URL: postgres://admin:a1a1a1@db/DB
       - "8000:8000"
-    networks:
-      - my_network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d DB"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      
-networks:
-  my_network:
-    driver: bridge
+    depends_on:
+      - db
+

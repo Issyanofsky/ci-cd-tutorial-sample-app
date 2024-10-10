@@ -70,10 +70,11 @@ pipeline {
     post {
         always {
             // Clean up
-            sh 'docker stop rest-api || true'
-            sh 'docker rm rest-api || true'
-            sh 'docker stop postgres-db || true'
-            sh 'docker rm postgres-db || true'
+//            sh 'docker stop rest-api || true'
+//            sh 'docker rm rest-api || true'
+//            sh 'docker stop postgres-db || true'
+//            sh 'docker rm postgres-db || true'
+            sh 'docker-compose down'
             cleanWs()
             echo 'workspace is Clean'
             chuckNorris()

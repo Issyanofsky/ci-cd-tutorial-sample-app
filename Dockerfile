@@ -15,7 +15,7 @@ COPY . /sample-app/
 RUN pip3 install -r requirements.txt && \
     pip3 install -r requirements-server.txt
 
-ENV FLASK_APP=app.py  # Adjust if necessary
+ENV FLASK_APP=app.py  # Adjust this if your main file has a different name
 ENV DATABASE_URL=postgres://admin:a1a1a1@postgres:5432/DB
 
 ENV LC_ALL="C.UTF-8"
@@ -24,3 +24,4 @@ ENV LANG="C.UTF-8"
 EXPOSE 8000
 
 CMD ["gunicorn", "app:app", "-b", "0.0.0.0:8000"]
+

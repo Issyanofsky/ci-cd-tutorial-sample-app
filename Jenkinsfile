@@ -5,7 +5,10 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'ci-cd_image' // Change this to your image name
-        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+        POSTGRES_IMAGE = 'postgres:latest'
+        DB_NAME = 'DB' // Replace with your database name
+        DB_USER = 'admin' // Replace with your database user
+        DB_PASSWORD = 'a1a1a1' // Replace with your database password
     }
 
     stages {
@@ -15,31 +18,45 @@ pipeline {
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker images
-                    sh 'docker-compose build'
+                    // Build the Docker image for the application
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
                 }
             }
         }
 
-        stage('Deploy Application') {
+        stage('Run Database') {
             steps {
                 script {
-                    // Start the application
-                    sh 'docker-compose up -d '
+                    // Run the PostgreSQL container
+                    sh """
+                    docker run --name postgres-db -d \
+                        -e POSTGRES_DB=${DB_NAME} \
+                        -e POSTGRES_USER=${DB_USER} \
+                        -e POSTGRES_PASSWORD=${DB_PASSWORD} \
+                        -p 5432:5432 \
+                        ${POSTGRES_IMAGE}
+                    """
                 }
             }
         }
-//        stage('install Dependencies') {
-//            steps {
-//                script {
-//                    // Start the application
-//                    sh 'docker-compose up -d app'
-//                }
-//            }
-//        }
+
+        stage('Run Application') {
+            steps {
+                script {
+                    // Run the application container
+                    sh """
+                    docker run --name rest-api -d \
+                        --link postgres-db:postgres \
+                        -e DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres/${DB_NAME} \
+                        -p 8000:8000 \
+                        ${DOCKER_IMAGE}
+                    """
+                }
+            }
+        }
 
     }
 

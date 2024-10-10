@@ -57,7 +57,18 @@ pipeline {
                 }
             }
         }
-
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Run the tests inside the application container
+                    sh """
+                    docker run --rm --link postgres-db:postgres \
+                        -e DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres/${DB_NAME} \
+                        ${DOCKER_IMAGE} python -m unittest discover
+                    """
+                }
+            }
+        }
     }
 
     post {

@@ -4,6 +4,7 @@ RUN apt-get update && \
     apt-get -y upgrade && \
     DEBIAN_FRONTEND=noninteractive apt-get install -yq libpq-dev gcc python3.8 python3-pip && \
     apt-get clean
+RUN pip install psycopg2
 
 WORKDIR /sample-app
 

@@ -53,7 +53,7 @@ pipeline {
                         -e DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres/${DB_NAME} \
                         -p 8000:8000 \
                         ${DOCKER_IMAGE}
-                    rest-api python -m unittest discover
+                    python -m unittest discover
                     """
                 }
             }

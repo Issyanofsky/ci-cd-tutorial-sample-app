@@ -26,7 +26,14 @@ pipeline {
                 }
             }
         }
-
+        stage('Run Application') {
+            steps {
+                script {
+                    // Start the app and db services in detached mode
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
         stage('Run Database') {
             steps {
                 script {

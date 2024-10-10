@@ -28,18 +28,18 @@ pipeline {
             steps {
                 script {
                     // Start the application
-                    sh 'docker-compose up -d app'
+                    sh 'docker-compose up -d '
                 }
             }
         }
-        stage('install Dependencies') {
-            steps {
-                script {
-                    // Start the application
-                    sh 'docker-compose up -d app'
-                }
-            }
-        }
+//        stage('install Dependencies') {
+//            steps {
+//                script {
+//                    // Start the application
+//                    sh 'docker-compose up -d app'
+//                }
+//            }
+//        }
 
     }
 

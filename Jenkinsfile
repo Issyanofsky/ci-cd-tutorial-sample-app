@@ -38,6 +38,11 @@ pipeline {
 //                sh 'psql -U admin -d DB'
             }
         }
+        stage('Show Logs') {
+            steps {
+                sh 'docker-compose logs app'
+            }
+        }
         stage('Run Database Migrations') {
             steps {
                 echo 'Running database migrations...'

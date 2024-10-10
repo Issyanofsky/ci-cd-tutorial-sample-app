@@ -3,110 +3,51 @@ pipeline {
         label 'docker-slave'
     }
 
+    environment {
+        DOCKER_IMAGE = 'ci-cd_image // Change this to your image name
+        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'github-creds', url: 'https://github.com/Issyanofsky/ci-cd-tutorial-sample-app.git'
-                echo 'Git checkout completed successfully!'
+                // Checkout the code from your SCM (e.g., Git)
+                checkout scm
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Docker Images') {
             steps {
-                echo 'Starting build stage...'
                 script {
-                    try {
-                        // Build the Docker image
-                        sh 'docker build . -t ci-cd_image'
-                        echo 'Docker image built successfully!'
-                    } catch (Exception e) {
-                        echo 'Build failed!'
-                        error "Error: ${e.message}"
-                    }
+                    // Build the Docker images
+                    sh 'docker-compose build'
                 }
             }
         }
 
-        stage('Deploy PostgreSQL') {
-            steps {
-                echo 'Starting PostgreSQL service...'
-                // Start PostgreSQL using Docker Compose
-                sh 'docker-compose up -d' // postgres'
-                // Wait for PostgreSQL to be ready
-                sh 'sleep 40'
-//                sh 'PGPASSWORD="a1a1a1" psql -h localhost -p 5432 -U admin -d DB'
-//                sh 'psql -U admin -d DB'
-            }
-        }
-        stage('Show Logs') {
-            steps {
-                sh 'docker-compose logs app'
-            }
-        }
         stage('Run Database Migrations') {
             steps {
-                echo 'Running database migrations...'
                 script {
-                    sh 'docker-compose exec app flask db upgrade'
-                    sh 'python seed.py' 
-                    echo 'Migration Ended'
-                }
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                script {
-                    try {
-                        // Run tests inside the Docker container using python3
-                       sh 'docker run --rm --network=host ci-cd_image python3 -m unittest discover -s ./tests'
-                        echo 'Tests executed successfully!'
-                    } catch (Exception e) {
-                        echo 'Tests failed!'
-                        echo "Error: ${e.message}"
-                        currentBuild.result = 'FAILURE'
-                    }
-                }
-            }
-        }
-
-        stage('Test Coverage') {
-            steps {
-                script {
-                    // Generate test coverage report
-                    sh 'docker run --rm --network=host ci-cd_image python3 -m pytest --cov-report html:cov_html --cov=./sample-app'
-                    echo 'Coverage report generated!'
+                    // Run migrations using the migrate service
+                    sh 'docker-compose run --rm migrate'
                 }
             }
         }
 
         stage('Deploy Application') {
             steps {
-                echo 'Deploying application...'
-                // Deploy the application using Docker Compose
-                sh 'docker-compose up -d'
-            }
-        }
-
-        stage('Clean Up') {
-            steps {
-                echo 'Cleaning up...'
-                // Stop and remove services after deployment
-                sh 'docker-compose down'
+                script {
+                    // Start the application
+                    sh 'docker-compose up -d app'
+                }
             }
         }
     }
 
     post {
         always {
-            cleanWs() // Clean workspace
-        }
-        
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        
-        failure {
-            echo 'Pipeline failed. Check the logs for details.'
+            // Clean up
+            sh 'docker-compose down'
         }
     }
 }

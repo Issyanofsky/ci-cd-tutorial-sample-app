@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - postgres
+      - sql
     environment:
       DATABASE_URL: postgres://admin:a1a1a1@sql:5432/DB
     ports:

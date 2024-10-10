@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get clean
     
 RUN python3 -m pip install --upgrade pip
-RUN pip install psycopg2
+RUN pip3 install psycopg2
 
 WORKDIR /sample-app
 

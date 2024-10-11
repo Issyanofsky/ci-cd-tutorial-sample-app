@@ -14,7 +14,7 @@ services:
     build:
       context: .
     environment:
-      DATABASE_URL: postgresql://admin:b1b1b1@db/DB
+      DATABASE_URL: postgresql://admin:a1a1a1@db/DB
     ports:
       - "8000:8000"
     depends_on:

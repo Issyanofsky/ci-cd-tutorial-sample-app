@@ -33,7 +33,7 @@ pipeline {
                     sh 'docker-compose up -d postgres'
     //                docker run --rm --network host ${DOCKER_IMAGE} python seed.py
                     sleep 20
-                    sh 'docker-compose up -d add'
+                    sh 'docker-compose up -d app'
                 }
             }
         }

@@ -30,10 +30,10 @@ pipeline {
             steps {
                 script {
                     // Start the app and db services in detached mode
-                    sh 'docker-compose up postgres -d'
+                    sh 'docker-compose up -d postgres'
     //                docker run --rm --network host ${DOCKER_IMAGE} python seed.py
                     sleep 20
-                    sh 'docker-compose up add -d'
+                    sh 'docker-compose up -d add'
                 }
             }
         }

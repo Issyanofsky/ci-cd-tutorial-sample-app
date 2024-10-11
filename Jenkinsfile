@@ -39,7 +39,7 @@ pipeline {
         stage('Run test') {
             steps {
                 script {
-                    sh 'docker run --rm -w /sample-app ${DOCKER_IMAGE} coverage run -m unittest discover || (echo "Tests failed" && exit 1)'
+                    sh 'docker run --rm -w /sample-app ${DOCKER_IMAGE} coverage run python -m unittest discover || (echo "Tests failed" && exit 1)' 
                 }
             }
         }

@@ -31,7 +31,8 @@ pipeline {
                 script {
                     // Start the app and db services in detached mode
                     sh 'docker-compose up -d'
-                    docker run --rm --network host ${DOCKER_IMAGE} python seed.py
+    //                docker run --rm --network host ${DOCKER_IMAGE} python seed.py
+                    sleep 20
                 }
             }
         }

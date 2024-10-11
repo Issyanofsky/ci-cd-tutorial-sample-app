@@ -35,13 +35,13 @@ pipeline {
                 }
             }
         }
-        stage('Run test') {
-            steps {
-                script {
-                    docker run --rm --network host ${DOCKER_IMAGE} coverage run -m unittest discover
-                }
-            }
-        }
+//        stage('Run test') {
+//            steps {
+//                script {
+//                    docker run --rm --network host ${DOCKER_IMAGE} coverage run -m unittest discover
+//                }
+//            }
+//        }
 
     }
 

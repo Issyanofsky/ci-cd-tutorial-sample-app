@@ -4,3 +4,4 @@ Flask-SQLAlchemy==2.4.4
 psycopg2>=2.9,<3.0
 coverage>=6.0
 python-dotenv
+pytest

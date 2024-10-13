@@ -39,18 +39,17 @@ pipeline {
                 }
             }
         }
+         stage('Run Migrations') {
+            steps {
+                script {
+                    sh 'docker-compose exec -T app flask db upgrade'
+                }
+            }
+        }
         stage('Verify Test Database') {
             steps {
                 script {
                     sh 'docker-compose exec -T postgres psql -U admin -d postgres -c "\\l"'
-                }
-            }
-        }
-
-        stage('Run Migrations') {
-            steps {
-                script {
-                    sh 'docker-compose exec -T app flask db upgrade'
                 }
             }
         }

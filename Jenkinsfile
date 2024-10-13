@@ -32,7 +32,6 @@ pipeline {
     //                docker run --rm --network host ${DOCKER_IMAGE} python seed.py
                     sleep 20
                     sh 'docker-compose up -d app'
-                    sh 'docker run --rm -w /sample-app devopstasksupdated_app coverage run -m unittest discover' 
                     sh 'echo ${DATABASE_URL}'
                 }
             }

@@ -26,20 +26,10 @@ pipeline {
                 }
             }
         }
-        stage('Create Test Database') {
-            steps {
-                script {
-                    sh 'docker-compose exec db psql -U admin -d postgres -c "CREATE DATABASE test_DB;"'
+        stage ('Test'){
+                steps {
+                sh "pytest testRoutes.py"
                 }
-            }
-        }
-
-        stage('Run Migrations') {
-            steps {
-                script {
-                    sh 'docker-compose run app flask db upgrade' 
-                }
-            }
         }
         
         stage('Run Tests') {

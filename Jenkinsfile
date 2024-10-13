@@ -16,40 +16,26 @@ pipeline {
             }
         }
 
-        stage('Build and Install Dependencies') {
+        stage('Build') {
             steps {
                 script {
-                    sh 'docker-compose up -d postgres' 
-                    sleep 20
-                    sh 'docker-compose up -d app'
                     sh 'docker-compose build'
                 }
             }
         }
-        stage ('Test'){
-                steps {
-                   sh 'docker-compose run app ls -alh' 
-                   sh 'docker-compose run --rm app pytest ./tests/'
-                }
-        }
-        
-        stage('Run Tests') {
+
+        stage('Run Database Migrations') {
             steps {
                 script {
-                    // Run tests with coverage
-                    def result = sh(script: 'docker-compose run app coverage run -m unittest discover', returnStatus: true)
-                    if (result != 0) {
-                        error "Tests failed."
+                    sh 'docker-compose run --rm app flask db upgrade'
                     }
                 }
             }
-        }
 
-        stage('Archive Results') {
+        stage('Run Tests') {
             steps {
                 script {
-                    sh 'docker-compose run app coverage report' // Generate coverage report
-                    // You can add commands to archive the report if needed
+                    sh 'docker-compose run --rm app pytest ./tests'
                 }
             }
         }

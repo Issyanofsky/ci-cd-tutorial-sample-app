@@ -28,7 +28,7 @@ pipeline {
         }
         stage ('Test'){
                 steps {
-                sh "pytest testRoutes.py"
+                sh "pytest ./tests/testRoutes.py"
                 }
         }
         

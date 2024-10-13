@@ -28,13 +28,14 @@ pipeline {
                 script {
                     // Start the PostgreSQL and app services
                     sh 'docker-compose up -d postgres'
-                    waitUntil {
-                        script {
-                            return sh(script: 'docker-compose exec -T postgres pg_isready -U admin', returnStatus: true) == 0
-                        }
-                    }
-                    sh 'docker-compose exec -T db psql -U admin -d postgres -c "CREATE DATABASE test_DB;"'
+//                    waitUntil {
+//                        script {
+//                            return sh(script: 'docker-compose exec -T postgres pg_isready -U admin', returnStatus: true) == 0
+//                        }
+//                    }
+//                    sh 'docker-compose exec -T db psql -U admin -d postgres -c "CREATE DATABASE test_DB;"'
                     sh 'docker-compose up -d app '
+                    sh 'docker-compose exec app python seed.py'
                 }
             }
         }

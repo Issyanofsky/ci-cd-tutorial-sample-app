@@ -9,7 +9,7 @@ WORKDIR /sample-app
 
 COPY . /sample-app/
 
-RUN python3 -m venv venv
+RUN python -m venv venv
 
 RUN pip3 install -r requirements.txt && \
     pip3 install -r requirements-server.txt

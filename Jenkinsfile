@@ -18,7 +18,7 @@ pipeline {
         stage('Build and Install Dependencies') {
             steps {
                 script {
-                    sh 'docker-compose up -d db' // Start the database service
+                    sh 'docker-compose up -d postgres' // Start the database service
                     sh 'docker-compose build' // Build the app container
                 }
             }

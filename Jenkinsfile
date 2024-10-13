@@ -4,11 +4,11 @@ pipeline {
     }
 
     environment {
-        DOCKER_IMAGE = 'ci-cd_image' // Change this to your image name
+        DOCKER_IMAGE = 'ci-cd_image' 
         POSTGRES_IMAGE = 'postgres:latest'
-        DB_NAME = 'DB' // Replace with your database name
-        DB_USER = 'admin' // Replace with your database user
-        DB_PASSWORD = 'a1a1a1' // Replace with your database password
+        DB_NAME = 'DB' 
+        DB_USER = 'admin' 
+        DB_PASSWORD = 'a1a1a1' 
     }
 
     stages {
@@ -21,7 +21,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker image for the application
                     sh 'docker build -t ${DOCKER_IMAGE} .'
                 }
             }
@@ -29,7 +28,6 @@ pipeline {
         stage('Run Application') {
             steps {
                 script {
-                    // Start the app and db services in detached mode
                     sh 'docker-compose up -d postgres'
     //                docker run --rm --network host ${DOCKER_IMAGE} python seed.py
                     sleep 20
@@ -49,7 +47,7 @@ pipeline {
 
     post {
         always {
-            // Clean up
+            
 //            sh 'docker stop rest-api || true'
 //            sh 'docker rm rest-api || true'
 //            sh 'docker stop postgres-db || true'

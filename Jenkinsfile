@@ -4,46 +4,54 @@ pipeline {
     }
 
     environment {
-        DOCKER_IMAGE = 'ci-cd_image' 
-        POSTGRES_IMAGE = 'postgres:latest'
-        DB_NAME = 'DB' 
-        DB_USER = 'admin' 
-        DB_PASSWORD = 'a1a1a1' 
+        DATABASE_URL = "postgres://admin:a1a1a1@db/DB"
+        TEST_DATABASE_URL = "postgres://admin:a1a1a1@db/test_DB"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'github-creds', url: 'https://github.com/Issyanofsky/ci-cd-tutorial-sample-app.git'
+                git 'https://github.com/edonosotti/ci-cd-tutorial-sample-app'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and Install Dependencies') {
             steps {
                 script {
-                    sh 'docker build -t ${DOCKER_IMAGE} .'
-                }
-            }
-        }
-        stage('Run Application') {
-            steps {
-                script {
-                    sh 'docker-compose up -d postgres'
-    //                docker run --rm --network host ${DOCKER_IMAGE} python seed.py
-                    sleep 20
-                    sh 'docker-compose up -d app'
-                    sh 'echo ${DATABASE_URL}'
-                }
-            }
-        }
-        stage('Run test') {
-            steps {
-                script {
-                    sh 'docker run --rm -w /sample-app devopstasksupdated_app coverage run -m unittest discover' // || (echo "Tests failed" && exit 1)' 
+                    sh 'docker-compose up -d db' // Start the database service
+                    sh 'docker-compose build' // Build the app container
                 }
             }
         }
 
+        stage('Run Migrations') {
+            steps {
+                script {
+                    sh 'docker-compose run app flask db upgrade' // Run migrations
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Run tests with coverage
+                    def result = sh(script: 'docker-compose run app coverage run -m unittest discover', returnStatus: true)
+                    if (result != 0) {
+                        error "Tests failed."
+                    }
+                }
+            }
+        }
+
+        stage('Archive Results') {
+            steps {
+                script {
+                    sh 'docker-compose run app coverage report' // Generate coverage report
+                    // You can add commands to archive the report if needed
+                }
+            }
+        }
     }
 
     post {

@@ -32,7 +32,13 @@ pipeline {
                 }
             }
         }
-
+        stage('Run Migrations') {
+            steps {
+                script {
+                    sh 'docker-compose run app flask db upgrade'
+                }
+            }
+        }
         stage('Run Tests') {
             steps {
                 script {

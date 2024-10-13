@@ -28,6 +28,7 @@ pipeline {
                 script {
                     // Start the PostgreSQL and app services
                     sh 'docker-compose up -d'
+                    sleep 10
                 }
             }
         }

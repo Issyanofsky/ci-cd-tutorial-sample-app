@@ -23,7 +23,14 @@ pipeline {
                 }
             }
         }
-
+        stage('Start Services') {
+            steps {
+                script {
+                    // Start the PostgreSQL and app services
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
         stage('Run Database Migrations') {
             steps {
                 script {

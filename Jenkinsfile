@@ -34,7 +34,7 @@ pipeline {
         stage('Run Database Migrations') {
             steps {
                 script {
-                    sh 'docker-compose exec app coverage run -m unittest discover'
+                    sh 'docker-compose exec -T app coverage run -m unittest discover'
                     }
                 }
             }

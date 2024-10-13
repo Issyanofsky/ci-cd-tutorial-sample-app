@@ -36,10 +36,17 @@ pipeline {
                    // sh 'docker-compose exec -T postgres psql -U admin -d postgres -c "CREATE DATABASE test_DB;"'
                     sh 'docker-compose up -d app '
                     sh 'docker-compose exec -T app python3 seed.py'
+                }
+            }
+        }
+        stage('Verify Test Database') {
+            steps {
+                script {
                     sh 'docker-compose exec -T postgres psql -U admin -d postgres -c "\l"'
                 }
             }
         }
+
         stage('Run Migrations') {
             steps {
                 script {

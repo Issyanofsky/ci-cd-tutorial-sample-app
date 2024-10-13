@@ -34,6 +34,7 @@ pipeline {
         stage('Run Database Migrations') {
             steps {
                 script {
+                    sh 'docker-compose ps'
                     sh 'docker-compose exec -T db psql -U admin -d postgres -c "CREATE DATABASE test_DB;"'
                     sh 'docker-compose exec -T app coverage run -m unittest discover'
                     }

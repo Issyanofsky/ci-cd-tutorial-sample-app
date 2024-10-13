@@ -32,7 +32,7 @@ pipeline {
     //                docker run --rm --network host ${DOCKER_IMAGE} python seed.py
                     sleep 20
                     sh 'docker-compose up -d app'
-                    sh 'dockr ps'
+                    sh 'docker run --rm -w /sample-app app coverage run -m unittest discover' 
                     sh 'echo ${DATABASE_URL}'
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
         stage('Run test') {
             steps {
                 script {
-                    sh 'docker run --rm -w /sample-app devopstasksupdated_app coverage run -m unittest discover' // || (echo "Tests failed" && exit 1)' 
+           //         sh 'docker run --rm -w /sample-app devopstasksupdated_app coverage run -m unittest discover' // || (echo "Tests failed" && exit 1)' 
                 }
             }
         }

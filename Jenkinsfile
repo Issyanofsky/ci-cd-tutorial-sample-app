@@ -32,6 +32,8 @@ pipeline {
     //                docker run --rm --network host ${DOCKER_IMAGE} python seed.py
                     sleep 20
                     sh 'docker-compose up -d app'
+                    sh 'dockr ps'
+                    sh 'echo ${DATABASE_URL}'
                 }
             }
         }

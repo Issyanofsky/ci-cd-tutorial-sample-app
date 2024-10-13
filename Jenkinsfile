@@ -27,10 +27,10 @@ pipeline {
             steps {
                 script {
                     // Start the PostgreSQL and app services
-                    sh 'docker-compose up postgres -d'
+                    sh 'docker-compose up -d postgres'
                     sh 'docker-compose exec -T db psql -U admin -d postgres -c "CREATE DATABASE test_DB;"'
                     sleep 10
-                    sh 'docker-compose up app -d'
+                    sh 'docker-compose up -d app '
                 }
             }
         }

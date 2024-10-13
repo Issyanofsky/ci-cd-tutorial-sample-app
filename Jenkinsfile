@@ -19,16 +19,15 @@ pipeline {
         stage('Build and Install Dependencies') {
             steps {
                 script {
-                    sh 'docker-compose up -d postgres' // Start the database service
-                    sh 'docker-compose build' // Build the app container
+                    sh 'docker-compose up -d postgres' 
+                    sh 'docker-compose build'
                 }
             }
         }
-
         stage('Run Migrations') {
             steps {
                 script {
-                    sh 'docker-compose run app flask db upgrade' // Run migrations
+                    sh 'docker-compose run app flask db upgrade' 
                 }
             }
         }

@@ -28,7 +28,7 @@ pipeline {
         }
         stage ('Test'){
                 steps {
-                sh "pytest ./tests/testRoutes.py"
+                   sh 'docker-compose run --rm app pytest ./tests/testRoutes.py'
                 }
         }
         

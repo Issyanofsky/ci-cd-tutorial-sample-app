@@ -20,6 +20,8 @@ pipeline {
             steps {
                 script {
                     sh 'docker-compose up -d postgres' 
+                    sleep 20
+                    sh 'docker-compose up -d app'
                     sh 'docker-compose build'
                 }
             }

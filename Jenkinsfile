@@ -42,7 +42,7 @@ pipeline {
         stage('Verify Test Database') {
             steps {
                 script {
-                    sh 'docker-compose exec -T postgres psql -U admin -d postgres -c "\l"'
+                    sh 'docker-compose exec -T postgres psql -U admin -d postgres -c "\\l"'
                 }
             }
         }

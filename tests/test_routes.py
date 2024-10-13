@@ -20,7 +20,6 @@ class BasicTests(unittest.TestCase):
         app.config['SQLALCHEMY_DATABASE_URI'] = \
             os.environ.get('TEST_DATABASE_URL') or \
             'sqlite:///' + TEST_DB
-        echo '${SQLALCHEMY_DATABASE_URI}'
         self.app = app.test_client()
         db.drop_all()
         db.create_all()

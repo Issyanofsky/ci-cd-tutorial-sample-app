@@ -34,7 +34,7 @@ pipeline {
         stage('Run Database Migrations') {
             steps {
                 script {
-                    sh 'docker-compose run --rm app flask db upgrade'
+                    sh 'docker-compose run --rm -w /sample-app devopstasksupdated_app coverage run -m unittest discover
                     }
                 }
             }

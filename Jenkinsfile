@@ -46,7 +46,7 @@ pipeline {
                 }
             }
         }
-        stage('Verify Test Database') {
+        stage('Show Databases') {
             steps {
                 script {
                     sh 'docker-compose exec -T postgres psql -U admin -d postgres -c "\\l"'

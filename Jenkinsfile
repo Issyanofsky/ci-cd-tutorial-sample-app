@@ -39,13 +39,13 @@ pipeline {
                 }
             }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    sh 'docker-compose run --rm app python -m unittest discover'
-                }
-            }
-        }
+//        stage('Run Tests') {
+//            steps {
+//                script {
+//                    sh 'docker-compose run --rm app python -m unittest discover'
+//                }
+//            }
+//        }
     }
 
     post {

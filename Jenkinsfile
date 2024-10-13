@@ -23,7 +23,7 @@ pipeline {
                 }
             }
         }
-        stage('Start Services') {
+        stage('Start applicatin') {
             steps {
                 script {
                     // Start the PostgreSQL and app services
@@ -39,22 +39,13 @@ pipeline {
                 }
             }
         }
-        stage('Run Database Migrations') {
+        stage('Run tests') {
             steps {
                 script {
-                    sh 'docker-compose ps'
                     sh 'docker-compose exec -T app coverage run -m unittest discover'
                     }
                 }
             }
-
-//        stage('Run Tests') {
-//            steps {
-//                script {
-//                    sh 'docker-compose run --rm app python -m unittest discover'
-//                }
-//            }
-//        }
     }
 
     post {

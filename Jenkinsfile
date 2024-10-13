@@ -6,6 +6,7 @@ pipeline {
     environment {
         DATABASE_URL = "postgres://admin:a1a1a1@postgres/DB"
         TEST_DATABASE_URL = "postgres://admin:a1a1a1@postgres/test_DB"
+        SQLALCHEMY_DATABASE_URI = "postgres://admin:a1a1a1@postgres/DB"
     }
 
     stages {

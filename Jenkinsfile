@@ -4,8 +4,8 @@ pipeline {
     }
 
     environment {
-        DATABASE_URL = "postgres://admin:a1a1a1@db/CI_DB"
-        TEST_DATABASE_URL = "postgres://admin:a1a1a1@db/test_DB"
+        DATABASE_URL = "postgres://admin:a1a1a1@postgres/CI_DB"
+        TEST_DATABASE_URL = "postgres://admin:a1a1a1@postgres/test_DB"
     }
 
     stages {

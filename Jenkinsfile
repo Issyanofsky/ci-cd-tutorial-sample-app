@@ -24,6 +24,14 @@ pipeline {
                 }
             }
         }
+        stage('Create Test Database') {
+            steps {
+                script {
+                    sh 'docker-compose run db psql -U admin -d postgres -c "CREATE DATABASE test_DB;"'
+                }
+            }
+        }
+
         stage('Run Migrations') {
             steps {
                 script {

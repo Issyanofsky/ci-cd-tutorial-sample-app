@@ -6,6 +6,7 @@ pipeline {
     environment {
         DATABASE_URL = "postgres://admin:a1a1a1@postgres/DB"
         TEST_DATABASE_URL = "postgres://admin:a1a1a1@postgres/test_db"
+         DOCKER_IMAGE = "ecyanofsky/ci-cd-tuturial:${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -57,18 +58,27 @@ pipeline {
             steps {
                 script {
                     sh 'docker-compose exec -T app coverage run -m unittest discover'
-                    }
                 }
             }
+        }
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                        
+                        sh "docker tag ci-cd_image ${DOCKER_IMAGE}"
+                        sh "docker push ${DOCKER_IMAGE}"
+                        sh 'echo "The image as pushed to DockerHub Successfuly!!"
+                }
+            }
+        }
     }
 
     post {
         always {
             
-//            sh 'docker stop rest-api || true'
-//            sh 'docker rm rest-api || true'
-//            sh 'docker stop postgres-db || true'
-//            sh 'docker rm postgres-db || true'
+
             sh 'docker-compose down'
             cleanWs()
             echo 'workspace is Clean'

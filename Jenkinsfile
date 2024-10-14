@@ -70,6 +70,7 @@ pipeline {
                         sh "docker tag ci-cd_image ${DOCKER_IMAGE}"
                         sh "docker push ${DOCKER_IMAGE}"
                         sh 'echo "The image as pushed to DockerHub Successfuly!!"'
+                    }
                 }
             }
         }

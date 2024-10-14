@@ -67,7 +67,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                         
-                        sh "docker tag ci-cd_image ${DOCKER_IMAGE}"
+                        sh "docker tag devopstasksupdated_app ${DOCKER_IMAGE}"
                         sh "docker push ${DOCKER_IMAGE}"
                         sh 'echo "The image as pushed to DockerHub Successfuly!!"'
                     }

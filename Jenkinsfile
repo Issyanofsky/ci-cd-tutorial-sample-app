@@ -56,8 +56,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                    sh 'docker-compose exec -T app PYTHONWARNINGS="ignore::DeprecationWarning" coverage run -m unittest discover'
-                    //sh 'docker-compose exec -T app coverage run -m unittest discover'
+                    sh 'docker-compose exec -T app coverage run -m unittest discover'
                     }
                 }
             }

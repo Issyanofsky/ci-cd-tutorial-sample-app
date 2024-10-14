@@ -1,3 +1,4 @@
+@Library ('my-shared-library')_
 pipeline {
     agent {
         label 'docker-slave'
@@ -6,7 +7,7 @@ pipeline {
     environment {
         DATABASE_URL = "postgres://admin:a1a1a1@postgres/DB"
         TEST_DATABASE_URL = "postgres://admin:a1a1a1@postgres/test_db"
-         DOCKER_IMAGE = "ecyanofsky/ci-cd-tuturial:${env.BUILD_NUMBER}"
+        DOCKER_IMAGE = "ecyanofsky/ci-cd-tuturial:${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -64,13 +65,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                        
-                        sh "docker tag devopstasksupdated_app ${DOCKER_IMAGE}"
-                        sh "docker push ${DOCKER_IMAGE}"
-                        sh 'echo "The image as pushed to DockerHub Successfuly!!"'
-                    }
+                    push_to_dockerhub(${DOCKER_IMAGE}, 'docker-creds')
                 }
             }
         }

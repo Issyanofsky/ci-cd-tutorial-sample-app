@@ -65,7 +65,8 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    push_to_dockerhub('docker-creds')
+                    hello_world()
+                    //push_to_dockerhub('docker-creds')
                     sh 'echo "The image as pushed to DockerHub Successfuly!!"'
                 }
             }

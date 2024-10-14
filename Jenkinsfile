@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         DATABASE_URL = "postgres://admin:a1a1a1@postgres/DB"
-        TEST_DATABASE_URL = "postgres://admin:a1a1a1@postgres/test_DB"
+        TEST_DATABASE_URL = "postgres://admin:a1a1a1@postgres/test_db"
     }
 
     stages {
@@ -33,7 +33,7 @@ pipeline {
                             return sh(script: 'docker-compose exec -T postgres pg_isready -U admin', returnStatus: true) == 0
                         }
                     }
-                   // sh 'docker-compose exec -T postgres psql -U admin -d postgres -c "CREATE DATABASE test_DB;"'
+                   // sh 'docker-compose exec -T postgres psql -U admin -d postgres -c "CREATE DATABASE test_db;"'
                     sh 'docker-compose up -d app '
                     sh 'docker-compose exec -T app python3 seed.py'
                 }

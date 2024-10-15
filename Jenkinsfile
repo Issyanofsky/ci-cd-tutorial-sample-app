@@ -68,7 +68,7 @@ pipeline {
             steps {
                 script {
                     echo "About to call dockerPush function"
-                    push_to_dokerhub(${DOCKERHUB_CRED})
+                    push_to_dokerhub(DOCKERHUB_CRED)
                     echo "The image as pushed to DockerHub Successfuly!!"
                 }
             }

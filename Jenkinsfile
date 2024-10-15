@@ -8,6 +8,7 @@ pipeline {
         DATABASE_URL = "postgres://admin:a1a1a1@postgres/DB"
         TEST_DATABASE_URL = "postgres://admin:a1a1a1@postgres/test_db"
         DOCKER_IMAGE = "ecyanofsky/ci-cd-tuturial:${env.BUILD_NUMBER}"
+        DOCKERHUB_CRED = "docker-creds"
         IMAGE_NAME = "devopstasksupdated_app"
     }
 
@@ -67,7 +68,7 @@ pipeline {
             steps {
                 script {
                     echo "About to call dockerPush function"
-                    push_to_dokerhub('docker-creds')
+                    push_to_dokerhub(${DOCKERHUB_CRED})
                     echo "The image as pushed to DockerHub Successfuly!!"
                 }
             }
